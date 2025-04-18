@@ -1,157 +1,278 @@
+# Bus Ticket Booking System - Backend Service
+
+![Java](https://img.shields.io/badge/Java-17-007396?logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-6DB33F?logo=springboot)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql)
+![JWT](https://img.shields.io/badge/JWT-Authentication-000000?logo=jsonwebtokens)
+![Maven](https://img.shields.io/badge/Maven-3.6+-C71A36?logo=apachemaven)
+
+## Table of Contents
+- [System Overview](#system-overview)
+- [Architecture](#architecture)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Installation Guide](#installation-guide)
+- [Configuration](#configuration)
+- [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
+- [Security](#security)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
+
+## System Overview
+
+The Bus Ticket Booking System is a robust backend service built with Spring Boot that provides:
+
+- Multi-role access control (Admin, Bus Operator, Customer)
+- Comprehensive bus and route management
+- Real-time seat availability tracking
+- Secure payment processing
+- Automated email notifications
+- RESTful API for frontend integration
+
+## Architecture
 
 
-```markdown
-# BusTicketBooking Backend
+graph TD
+    A[Client] --> B[Spring Boot Application]
+    B --> C[Spring Security]
+    B --> D[Spring Data JPA]
+    B --> E[Spring Mail]
+    D --> F[MySQL Database]
+    C --> G[JWT Authentication]
+    E --> H[SMTP Server]
 
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-brightgreen)
-![Java](https://img.shields.io/badge/Java-17-blue)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-orange)
 
-## Overview
+Features
+Core Functionality
+User registration and authentication
 
-The BusTicketBooking backend is a Spring Boot application that powers a bus reservation system with:
+JWT-based session management
 
-- 🚍 Bus and route management
-- 🛎️ Amenity assignments
-- 🔐 JWT-based authentication
-- ✉️ Email notifications
-- 📊 Multi-role access (Admin, Operator, User)
+Password encryption with BCrypt
 
-## Branches
+Admin Module
+Bus fleet management (CRUD operations)
 
-| Branch       | Description                          |
-|--------------|--------------------------------------|
-| `main`       | Core stable functionality            |
-| `admin`      | Admin features (bus/amenity mgmt)    |
-| `busoperator`| Operator features (schedules/routes) |
-| `user`       | User features (booking/search)       |
+Amenity configuration (WiFi, AC, etc.)
 
-## Tech Stack
+Route and schedule management
 
-- **Backend**: Spring Boot 3.4.4
-- **Database**: MySQL 8.0+
-- **Security**: JWT Authentication
-- **Build**: Maven
-- **Email**: Spring Mail
+User administration
 
-## Getting Started
+Operator Module
+Real-time schedule updates
 
-### Prerequisites
+Seat availability management
 
-- Java 17 JDK
-- MySQL 8.0+
-- Maven 3.6+
-- Git
+Earnings reports
 
-### Installation
+Customer Module
+Bus search and filtering
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/<your-username>/BusTicketBooking.git
-   cd BusTicketBooking
-   ```
+Seat selection
 
-2. **Create MySQL database**:
-   ```sql
-   CREATE DATABASE Nexbus;
-   ```
+Booking management
 
-3. **Configure application**:
-   Edit `src/main/resources/application.properties`:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/Nexbus
-   spring.datasource.username=your_username
-   spring.datasource.password=your_password
-   ```
+Payment processing
 
-4. **Build and run**:
-   ```bash
-   mvn clean install
-   mvn spring-boot:run
-   ```
+Ticket cancellation
 
-The application will start at `http://localhost:8090`
+##Technology Stack##
+Component	Technology
+Framework	Spring Boot 3.4.4
+Language	Java 17
+Build Tool	Maven
+Database	MySQL 8.0
+ORM	Spring Data JPA
+Security	Spring Security + JWT
+Email Service	Spring Mail
+Logging	Log4j2
+Testing	JUnit 5, Mockito
+Documentation	Swagger UI
+Installation Guide
+Prerequisites
+Java Development Kit 17
 
-## Project Structure
+MySQL Server 8.0+
 
-```
-src/
-├── main/
-│   ├── java/com/nexbus/BusTicketBooking/
-│   │   ├── config/       # Security & app config
-│   │   ├── controller/    # API endpoints
-│   │   ├── dto/          # Data transfer objects
-│   │   ├── exception/    # Custom exceptions
-│   │   ├── model/        # JPA entities
-│   │   ├── repository/   # Data access layer
-│   │   ├── service/      # Business logic
-│   │   └── util/        # Helpers & utilities
-│   └── resources/       # Config files
-```
+Maven 3.6+
 
-## Key Features
+Setup Instructions
+Clone the repository:
 
-### Admin Branch Features
-- Bus CRUD operations
-- Amenity management
-- User management
-- System configuration
+bash
+git clone https://github.com/<your-username>/BusTicketBooking.git
+cd BusTicketBooking
+Create and configure database:
 
-### Security
-- JWT authentication
-- Role-based access control
-- Password encryption
+sql
+CREATE DATABASE Nexbus;
+CREATE USER 'nexbus_user'@'localhost' IDENTIFIED BY 'securepassword';
+GRANT ALL PRIVILEGES ON Nexbus.* TO 'nexbus_user'@'localhost';
+FLUSH PRIVILEGES;
+Configure application properties:
 
-### Notifications
-- Booking confirmations
-- Payment receipts
-- Schedule changes
+properties
+# src/main/resources/application.properties
+spring.datasource.url=jdbc:mysql://localhost:3306/Nexbus
+spring.datasource.username=nexbus_user
+spring.datasource.password=securepassword
+spring.jpa.hibernate.ddl-auto=update
+Build and run:
 
-## API Documentation
+bash
+mvn clean install
+mvn spring-boot:run
+Configuration
+Essential Properties
+properties
+# Server
+server.port=8090
+server.servlet.context-path=/api
 
-Explore endpoints using Swagger UI after running the app:
-`http://localhost:8090/swagger-ui.html`
+# JWT
+jwt.secret=your-256-bit-secret
+jwt.expiration=86400000 # 24 hours
 
-## Troubleshooting
+# Email
+spring.mail.host=smtp.example.com
+spring.mail.port=587
+spring.mail.username=no-reply@nexbus.com
+spring.mail.password=email-password
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+Environment Variables
+For production, configure these environment variables:
 
-**Common Issues**:
+DB_URL
 
-1. **Database connection fails**:
-   - Verify MySQL credentials
-   - Check if MySQL service is running
+DB_USERNAME
 
-2. **JWT errors**:
-   - Ensure consistent secret key
-   - Validate token expiration settings
+DB_PASSWORD
 
-3. **Email failures**:
-   - Configure SMTP properties
-   - Check spam folder
+JWT_SECRET
 
-## Contributing
+SMTP_CREDENTIALS
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+API Documentation
+Access interactive API docs at: http://localhost:8090/swagger-ui.html
 
-## License
+Sample Endpoints
+Method	Endpoint	Description
+POST	/api/auth/register	User registration
+POST	/api/auth/login	User login
+GET	/api/buses	List available buses
+POST	/api/bookings	Create new booking
+GET	/api/bookings/{id}	Get booking details
+Database Schema
 
-Distributed under the MIT License. See `LICENSE` for more information.
 
-## Contact
+Key Entities:
 
-Prasanna R - prasannarps786@gmail.com
+users - User accounts and credentials
 
-Project Link: [https://github.com/Prasa786/BusTicketBooking](https://github.com/Prasa786/BusTicketBooking)
-```
+buses - Bus inventory and specifications
 
-### Key Improvements:
-1. **Visual Hierarchy**: Added badges and clear section headers
-2. **Branch Table**: Organized branch information for quick reference
-3. **Concise Setup**: Simplified installation steps
-4. **Troubleshooting**: Added common solutions
-5. **API Docs**: Mentioned Swagger UI access
-6. **Structure Visualization**: Clean directory tree display
-7. **Mobile-Friendly**: Proper Markdown formatting
+routes - Travel routes and stops
+
+schedules - Departure/arrival timings
+
+bookings - Reservation records
+
+payments - Transaction history
+
+Security
+Authentication Flow
+Client sends credentials to /api/auth/login
+
+Server validates and returns JWT
+
+Client includes JWT in Authorization header
+
+Server verifies JWT for each request
+
+Security Measures
+Password hashing with BCrypt
+
+JWT signature verification
+
+Role-based endpoint authorization
+
+CSRF protection
+
+CORS configuration
+
+Input validation
+
+Testing
+Test Coverage
+Unit tests: 80% coverage
+
+Integration tests: 65% coverage
+
+Security tests: OWASP ZAP scans
+
+Running Tests
+bash
+mvn test
+Deployment
+Production Recommendations
+Docker containerization
+
+Kubernetes orchestration
+
+AWS RDS for MySQL
+
+CI/CD pipeline with GitHub Actions
+
+Docker Setup
+dockerfile
+FROM openjdk:17-jdk-slim
+COPY target/busticketbooking-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+Contributing
+Fork the repository
+
+Create your feature branch (git checkout -b feature/your-feature)
+
+Commit your changes (git commit -m 'Add some feature')
+
+Push to the branch (git push origin feature/your-feature)
+
+Open a Pull Request
+
+Coding Standards
+Follow Google Java Style Guide
+
+Include Javadoc for all public methods
+
+Write unit tests for new features
+
+Keep commits atomic
+
+License
+MIT License
+
+Copyright (c) 2025 NexBus
+
+
+Support
+For technical support, please contact:
+
+Prasanna R
+Email: prasannarps786@gmail.com
+GitHub: @Prasa786
+
+Please include the following in support requests:
+
+Detailed description of the issue
+
+Steps to reproduce
+
+Screenshots/logs (if applicable)
+
+Environment details

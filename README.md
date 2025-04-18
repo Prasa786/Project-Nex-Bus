@@ -81,7 +81,7 @@ Payment processing
 
 Ticket cancellation
 
-##Technology Stack##
+Technology Stack
 Component	Technology
 Framework	Spring Boot 3.4.4
 Language	Java 17

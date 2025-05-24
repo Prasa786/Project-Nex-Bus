@@ -1,0 +1,7 @@
+*.java -text
+*.properties -text
+*.gitignore -text
+*.gitattributes -text
+/nexbus-backend/mvnw -text
+*.mvn -text
+*.cmd -text

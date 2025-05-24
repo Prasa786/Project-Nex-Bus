@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.nexbus.nexbus_backend.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
@@ -5,3 +6,12 @@ public class ResourceNotFoundException extends RuntimeException {
         super(String.format("%s not found with %s: %s", resourceName, fieldName, fieldValue));
     }
 }
+=======
+package com.nexbus.nexbus_backend.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
+        super(String.format("%s not found with %s: %s", resourceName, fieldName, fieldValue));
+    }
+}
+>>>>>>> 44bd435102e963e84bc2fef038ba51696f12ca66

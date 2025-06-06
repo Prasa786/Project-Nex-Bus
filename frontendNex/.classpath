@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="com/nexbus/frontendNex/config/" kind="src" path="frontendNex/src/main/java"/>
+	<classpathentry kind="src" path="frontendNex/src/main/java/com/nexbus/frontendNex/config"/>
+	<classpathentry kind="src" path="frontendNex/src/test/java"/>
+	<classpathentry kind="output" path="frontendNex/target/test-classes"/>
+</classpath>
